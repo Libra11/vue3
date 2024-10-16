@@ -4,7 +4,11 @@
  * @LastEditors: Libra
  * @Description:
  */
-import { b } from "@vue/shared";
-export const a = 1;
+export {
+  reactive,
+  shallowReactive,
+  readonly,
+  shallowReadonly,
+} from "./reactive";
 
-console.log(b);
+export { effect } from "./effect";

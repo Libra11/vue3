@@ -1,0 +1,39 @@
+<!--
+ * @Author: Libra
+ * @Date: 2024-10-16 20:47:08
+ * @LastEditors: Libra
+ * @Description: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reactive</title>
+  </head>
+  <body>
+    <script src="../packages/reactivity/dist/reactivity.global.js"></script>
+    <script>
+      const { reactive, readonly, shallowReactive, shallowReadonly, effect } =
+        vueReactivity;
+
+      const obj = reactive({
+        a: 1,
+        b: 2,
+        c: 3,
+      });
+      const arr = reactive([1, 2, 3, 4, 5]);
+
+      effect(() => {
+        console.log(obj.a);
+        console.log(obj.b);
+        console.log(arr.length);
+      });
+
+      setTimeout(() => {
+        obj.a = 10;
+        arr.length = 10;
+      }, 1000);
+    </script>
+  </body>
+</html>

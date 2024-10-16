@@ -4,21 +4,45 @@
  * @LastEditors: Libra
  * @Description:
  */
+import { isObject } from "@vue/shared";
+import {
+  reactiveHandlers,
+  shallowReactiveHandlers,
+  readonlyHandlers,
+  shallowReadonlyHandlers,
+} from "./baseHandler";
 
-export function reactive(target) {
-  return createReactiveObject(target, false);
+export function reactive(target: object) {
+  return createReactiveObject(target, false, reactiveHandlers);
 }
 
-export function shallowReactive(target) {
-  return createReactiveObject(target, false);
+export function shallowReactive(target: object) {
+  return createReactiveObject(target, false, shallowReactiveHandlers);
 }
 
-export function readonly(target) {
-  return createReactiveObject(target, true);
+export function readonly(target: object) {
+  return createReactiveObject(target, true, readonlyHandlers);
 }
 
-export function shallowReadonly(target) {
-  return createReactiveObject(target, true);
+export function shallowReadonly(target: object) {
+  return createReactiveObject(target, true, shallowReadonlyHandlers);
 }
 
-function createReactiveObject(target, isReadonly) {}
+// 缓存, 避免重复代理
+// WeakMap 自动进行垃圾回收
+const reactiveMap = new WeakMap();
+const readonlyMap = new WeakMap();
+
+function createReactiveObject(
+  target: object,
+  isReadonly: boolean,
+  handlers: ProxyHandler<any>
+) {
+  if (!isObject(target)) return target;
+  const proxyMap = isReadonly ? readonlyMap : reactiveMap;
+  const existingProxy = proxyMap.get(target);
+  if (existingProxy) return existingProxy;
+  const proxy = new Proxy(target, handlers);
+  proxyMap.set(target, proxy);
+  return proxy;
+}
