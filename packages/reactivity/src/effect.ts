@@ -1,13 +1,13 @@
-import { isIntegerKey, isMap } from "@vue/shared";
-import { isArray } from "@vue/shared";
-import { TrackOpTypes, TriggerOpTypes } from "./operations";
-
 /*
  * @Author: Libra
  * @Date: 2024-10-16 21:14:17
  * @LastEditors: Libra
  * @Description:
  */
+import { isIntegerKey, isMap } from "@vue/shared";
+import { isArray } from "@vue/shared";
+import { TrackOpTypes, TriggerOpTypes } from "./operations";
+
 export function effect(fn: Function, options: any = {}) {
   const effect = createReactiveEffect(fn, options);
   if (!options.lazy) effect();
@@ -20,6 +20,7 @@ let activeEffect: any;
 let effectStack: any[] = [];
 
 function createReactiveEffect(fn: Function, options: any) {
+  // effect 是一个函数，执行时会调用 fn
   const effect = function reactiveEffect() {
     try {
       effectStack.push(effect);
@@ -101,12 +102,14 @@ export function trigger(
         // 修改对象属性
         break;
     }
-    console.log("deps", deps);
     deps.forEach((dep: any) => {
       dep.forEach((effect: any) => {
-        effect();
+        if (effect.options.scheduler) {
+          effect.options.scheduler();
+        } else {
+          effect();
+        }
       });
     });
   }
-  console.log("deps", deps);
 }

@@ -12,6 +12,6 @@ async function build(dir) {
   })
 }
 
-build("reactivity")
+build("runtime-dom")
 
 

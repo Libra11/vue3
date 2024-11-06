@@ -14,25 +14,32 @@
   <body>
     <script src="../packages/reactivity/dist/reactivity.global.js"></script>
     <script>
-      const { reactive, readonly, shallowReactive, shallowReadonly, effect } =
-        vueReactivity;
+      const { computed, effect, ref } = vueReactivity;
 
-      const obj = reactive({
-        a: 1,
-        b: 2,
-        c: 3,
+      let baseName = ref("libra");
+      const name = computed({
+        get() {
+          return baseName + "lixin";
+        },
+        set(newValue) {
+          console.log(newValue);
+        },
       });
-      const arr = reactive([1, 2, 3, 4, 5]);
+      let baseAge = ref(18);
+      const age = computed(() => {
+        return baseAge.value + 2;
+      });
+
+      const obj = ref({});
+
+      console.log(obj.value, obj);
 
       effect(() => {
-        console.log(obj.a);
-        console.log(obj.b);
-        console.log(arr.length);
+        document.body.innerHTML = name + age.value;
       });
 
       setTimeout(() => {
-        obj.a = 10;
-        arr.length = 10;
+        name = "libra2222";
       }, 1000);
     </script>
   </body>

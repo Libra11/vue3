@@ -1,0 +1,16 @@
+{
+  "name": "@vue/runtime-core",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@vue/runtime-core": "file:",
+    "runtime-core": "file:"
+  },
+  "buildOptions": {
+    "name": "vueRuntimeCore",
+    "formats": [
+      "global"
+    ]
+  }
+}
