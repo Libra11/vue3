@@ -4,6 +4,9 @@
  * @LastEditors: Libra
  * @Description:
  */
-const a = 1;
+import { nodeOps } from "./nodeOps";
+import { patchProp } from "./patchProp";
 
-export default a;
+const renderOptions = Object.assign(nodeOps, { patchProp });
+
+export { renderOptions };
